@@ -1,0 +1,34 @@
+{
+    "name": "woody/symfony-bundle",
+    "description": "",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sebastien Malot",
+            "email": "sebastien@malot.fr"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "symfony/console": "^4.0",
+        "symfony/framework-bundle": "^4.0",
+        "woody/http-message": "dev-master",
+        "woody/http-server-middleware": "dev-master",
+        "woody/middleware-symfony": "dev-master",
+        "woody/middleware-whoops": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Woody\\Symfony\\Bundle\\": "src"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
+    "require-dev": {
+        "swoft/swoole-ide-helper": "*"
+    }
+}
