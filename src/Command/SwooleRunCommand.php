@@ -61,7 +61,7 @@ class SwooleRunCommand extends Command
             define('SCRIPT_FILENAME', $_SERVER['PROJECT_DIR'].'/'.$_SERVER['SCRIPT_NAME']);
         }
 
-        $debug = $_SERVER['APP_DEBUG'] ?? false;
+        $debug = isset($_SERVER['APP_DEBUG']) ? boolval($_SERVER['APP_DEBUG']) : false;
 
         $server = new \Swoole\Http\Server('0.0.0.0', 9501);
         $server->set($this->getServerSettings());
