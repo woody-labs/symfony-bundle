@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Woody\Http\Message\Response;
 use Woody\Http\Message\ServerRequest;
 use Woody\Http\Server\Middleware\Dispatcher;
+use Woody\Middleware\Exception\ExceptionMiddleware;
 use Woody\Middleware\Symfony\SymfonyMiddleware;
 use Woody\Middleware\Whoops\WhoopsMiddleware;
 
@@ -96,6 +97,7 @@ class SwooleRunCommand extends Command
 
                     $dispatcher = new Dispatcher();
                     $dispatcher->enableDebug($debug);
+                    $dispatcher->pipe(new ExceptionMiddleware());
                     $dispatcher->pipe(new WhoopsMiddleware());
                     $dispatcher->pipe(new SymfonyMiddleware());
 

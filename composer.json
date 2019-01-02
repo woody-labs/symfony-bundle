@@ -16,6 +16,7 @@
         "symfony/framework-bundle": "^4.0",
         "woody/http-message": "dev-master",
         "woody/http-server-middleware": "dev-master",
+        "woody/middleware-exception": "dev-master",
         "woody/middleware-symfony": "dev-master",
         "woody/middleware-whoops": "dev-master"
     },
