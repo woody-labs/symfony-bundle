@@ -18,6 +18,7 @@
         "woody/http-server-middleware": "dev-master",
         "woody/middleware-correlation-id": "dev-master",
         "woody/middleware-exception": "dev-master",
+        "woody/middleware-logs": "dev-master",
         "woody/middleware-symfony": "dev-master",
         "woody/middleware-whoops": "dev-master"
     },
