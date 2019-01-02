@@ -53,12 +53,15 @@ class SwooleRunCommand extends Command
             Request::setTrustedHosts([$trustedHosts]);
         }
 
+        // @todo: clean this code used by Woody\Request
         if (!defined('DOCUMENT_ROOT')) {
             define('DOCUMENT_ROOT', $_SERVER['PROJECT_DIR']);
         }
         if (!defined('SCRIPT_FILENAME')) {
             define('SCRIPT_FILENAME', $_SERVER['PROJECT_DIR'].'/'.$_SERVER['SCRIPT_NAME']);
         }
+
+        $debug = $_SERVER['APP_DEBUG'] ?? false;
 
         $server = new \Swoole\Http\Server('0.0.0.0', 9501);
         $server->set($this->getServerSettings());
@@ -86,11 +89,12 @@ class SwooleRunCommand extends Command
 
         $server->on(
             'request',
-            function (\Swoole\Http\Request $swooleRequest, \Swoole\Http\Response $swooleResponse) {
+            function (\Swoole\Http\Request $swooleRequest, \Swoole\Http\Response $swooleResponse) use ($debug) {
                 // Reset SERVER with minimal values.
                 $_SERVER = $_ENV;
 
                 $dispatcher = new Dispatcher();
+                $dispatcher->enableDebug($debug);
                 $dispatcher->pipe(new WhoopsMiddleware());
                 $dispatcher->pipe(new SymfonyMiddleware());
 
