@@ -90,18 +90,23 @@ class SwooleRunCommand extends Command
         $server->on(
             'request',
             function (\Swoole\Http\Request $swooleRequest, \Swoole\Http\Response $swooleResponse) use ($debug) {
-                // Reset SERVER with minimal values.
-                $_SERVER = $_ENV;
+                try {
+                    // Reset SERVER with minimal values.
+                    $_SERVER = $_ENV;
 
-                $dispatcher = new Dispatcher();
-                $dispatcher->enableDebug($debug);
-                $dispatcher->pipe(new WhoopsMiddleware());
-                $dispatcher->pipe(new SymfonyMiddleware());
+                    $dispatcher = new Dispatcher();
+                    $dispatcher->enableDebug($debug);
+                    $dispatcher->pipe(new WhoopsMiddleware());
+                    $dispatcher->pipe(new SymfonyMiddleware());
 
-                $request = ServerRequest::createFromSwoole($swooleRequest);
-                $response = $dispatcher->handle($request);
+                    $request = ServerRequest::createFromSwoole($swooleRequest);
+                    $response = $dispatcher->handle($request);
 
-                Response::send($response, $swooleResponse);
+                    Response::send($response, $swooleResponse);
+                } catch (\Throwable $t) {
+                    $swooleResponse->status(500);
+                    $swooleResponse->end('Internal Error');
+                }
             }
         );
 
