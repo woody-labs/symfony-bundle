@@ -3,6 +3,8 @@
 
 namespace Woody\Symfony\Bundle\Command;
 
+use Monolog\Handler\ErrorLogHandler;
+use Monolog\Logger;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,7 +14,7 @@ use Woody\Http\Message\ServerRequest;
 use Woody\Http\Server\Middleware\Dispatcher;
 use Woody\Middleware\CorrelationId\CorrelationIdMiddleware;
 use Woody\Middleware\Exception\ExceptionMiddleware;
-use Woody\Middleware\Exception\LogsMiddleware;
+use Woody\Middleware\Logs\LogsMiddleware;
 use Woody\Middleware\Symfony\SymfonyMiddleware;
 use Woody\Middleware\Whoops\WhoopsMiddleware;
 
@@ -97,10 +99,13 @@ class SwooleRunCommand extends Command
                     // Reset SERVER with minimal values.
                     $_SERVER = $_ENV;
 
+                    $logHandler = new ErrorLogHandler();
+                    $logger = new Logger('swoole', [$logHandler]);
+
                     $dispatcher = new Dispatcher();
                     $dispatcher->enableDebug($debug);
                     $dispatcher->pipe(new CorrelationIdMiddleware());
-                    $dispatcher->pipe(new LogsMiddleware());
+                    $dispatcher->pipe(new LogsMiddleware($logger));
                     $dispatcher->pipe(new ExceptionMiddleware());
                     $dispatcher->pipe(new WhoopsMiddleware());
                     $dispatcher->pipe(new SymfonyMiddleware());
