@@ -5,6 +5,7 @@ namespace Woody\Symfony\Bundle\Command;
 
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
+use Monolog\Processor\MemoryUsageProcessor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -100,7 +101,8 @@ class SwooleRunCommand extends Command
                     $_SERVER = $_ENV;
 
                     $logHandler = new ErrorLogHandler();
-                    $logger = new Logger('swoole', [$logHandler]);
+                    $memoryUsageProcessor = new MemoryUsageProcessor(true, false);
+                    $logger = new Logger('swoole', [$logHandler], [$memoryUsageProcessor]);
 
                     $dispatcher = new Dispatcher();
                     $dispatcher->enableDebug($debug);
