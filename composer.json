@@ -19,8 +19,12 @@
         "woody/middleware-correlation-id": "dev-master",
         "woody/middleware-exception": "dev-master",
         "woody/middleware-logs": "dev-master",
+        "woody/middleware-proxy": "dev-master",
         "woody/middleware-symfony": "dev-master",
         "woody/middleware-whoops": "dev-master"
+    },
+    "require-dev": {
+        "swoft/swoole-ide-helper": "*"
     },
     "autoload": {
         "psr-4": {
@@ -31,8 +35,5 @@
     "prefer-stable": true,
     "config": {
         "sort-packages": true
-    },
-    "require-dev": {
-        "swoft/swoole-ide-helper": "*"
     }
 }
